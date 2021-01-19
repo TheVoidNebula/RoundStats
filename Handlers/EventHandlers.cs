@@ -69,6 +69,8 @@ namespace RoundStats.Handlers
         public StringBuilder broadcast = new StringBuilder();
         public void onRoundEnd()
         {
+            int min = escapes[firstEscape].Minutes;
+            int sek = escapes[firstEscape].Seconds;
             if (Plugin.Config.isEnabled)
             {
                 if (Plugin.Config.showEscapeCount == true)
@@ -81,7 +83,7 @@ namespace RoundStats.Handlers
                     if(firstEscape.IsEmpty())
                         broadcast.Append(Plugin.Config.noFastestEscapeText + "\n");
                     else 
-                        broadcast.Append(Plugin.Config.fastesEscapeText.Replace("%player%", firstEscape).Replace("%time%", escapes[firstEscape].ToString()) + "\n");
+                        broadcast.Append(Plugin.Config.fastesEscapeText.Replace("%player%", firstEscape).Replace("%time%", min.ToString() + ":" + sek.ToString() + (min == 1 ? "Minute" : "Minuten")) + "\n");
 
                 if (Plugin.Config.showFirstDeath == true)
                     if (firstDeath.IsEmpty())
