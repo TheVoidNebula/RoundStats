@@ -39,7 +39,7 @@ namespace RoundStats
 
         public bool showFastestEscape = true;
 
-        public string fastesEscapeText = "<b>The Player <color=#F6941A>%player%</color> was the first one to escape in <color=#F6941A>%time&%</color>!</b>";
+        public string fastesEscapeText = "<b>The Player <color=#F6941A>%player%</color> was the first one to escape in <color=#F6941A>%time%</color>!</b>";
 
         public string noFastestEscapeText = "<b>Nobody has escaped!</b>";
 
