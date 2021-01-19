@@ -5,6 +5,11 @@
 * Determine which of the stats you want to show at the end of the round
 * Customize the messages for the stats
 
+## Installation
+1. [Install Synapse](https://github.com/SynapseSL/Synapse/wiki#hosting-guides)
+2. Place the RoundStats.dll file that you can download [here](https://github.com/TheVoidNebula/RoundStats/releases) in your plugin directory
+3. Restart/Start your server.
+
 ## Config
 Name  | Type | Default | Description
 ------------ | ------------ | ------------- | ------------ 
