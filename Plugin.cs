@@ -29,9 +29,5 @@ namespace RoundStats
             new EventHandlers();
         }
 
-        public override void ReloadConfigs()
-        {
-
-        }
     }
 }
