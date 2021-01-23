@@ -117,6 +117,8 @@ namespace RoundStats.Handlers
 
                 Map.Get.SendBroadcast(10, broadcast.ToString());
                 firstEscape = "";
+                firstKill = "";
+                firstDeath = "";
             }
         }
 
