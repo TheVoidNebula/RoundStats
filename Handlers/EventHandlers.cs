@@ -63,7 +63,8 @@ namespace RoundStats.Handlers
             if (firstEscape == null)
                 firstEscape = ev.Player.DisplayName;
 
-            escapes.Add(ev.Player.DisplayName, Map.Get.Round.RoundLength);
+            if(!escapes.ContainsKey(ev.Player.DisplayName))
+                escapes.Add(ev.Player.DisplayName, Map.Get.Round.RoundLength);
         }
 
         public StringBuilder broadcast = new StringBuilder();
