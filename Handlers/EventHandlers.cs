@@ -11,9 +11,9 @@ namespace RoundStats.Handlers
     class EventHandlers
     {
 
-        public List<string> firstKill = new List<string>();
-        public List<string> firstDeath = new List<string>();
-        public string firstEscape = "";
+        public string firstKill;
+        public string firstDeath;
+        public string firstEscape;
         public Dictionary<string, int> kills = new Dictionary<string, int>();
         public Dictionary<string, int> deaths = new Dictionary<string, int>();
         public Dictionary<string, int> mostSCPsRecontained = new Dictionary<string, int>();
@@ -31,7 +31,7 @@ namespace RoundStats.Handlers
         {
             //code for the first kill
             if (firstKill.IsEmpty() && ev.Killer != ev.Victim)
-                firstKill.Add(ev.Killer.DisplayName);
+                firstKill = ev.Killer.DisplayName;
 
             //code for most kills
             if (!kills.ContainsKey(ev.Killer.DisplayName))
@@ -42,8 +42,8 @@ namespace RoundStats.Handlers
                     kills[ev.Killer.DisplayName]++;
 
             //code for most deaths
-            if(firstDeath.IsEmpty())
-                firstDeath.Add(ev.Victim.DisplayName);
+            if (firstDeath.IsEmpty())
+                firstDeath = ev.Victim.DisplayName;
 
             //code for most kills
             if (!deaths.ContainsKey(ev.Killer.DisplayName))
@@ -77,7 +77,7 @@ namespace RoundStats.Handlers
                     if(escapes.IsEmpty())
                         broadcast.Append(Plugin.Config.noEscapeCountText + "\n");
                     else
-                    broadcast.Append(Plugin.Config.escapeCountText.Replace("%escaped%", escapes.Count.ToString()) + "\n");
+                    broadcast.Append(Plugin.Config.escapeCountText.Replace("%escaped%", escapes.Keys.Count.ToString()) + "\n");
 
                 if (Plugin.Config.showFastestEscape == true)
                     if(firstEscape.IsEmpty())
@@ -89,13 +89,13 @@ namespace RoundStats.Handlers
                     if (firstDeath.IsEmpty())
                         broadcast.Append(Plugin.Config.noFirstDeathText + "\n");
                     else
-                        broadcast.Append(Plugin.Config.firstDeathText.Replace("%player%", firstDeath[0]) + "\n");
+                        broadcast.Append(Plugin.Config.firstDeathText.Replace("%player%", firstDeath) + "\n");
 
                 if (Plugin.Config.showFirstKill == true)
                     if (firstKill.IsEmpty())
                         broadcast.Append(Plugin.Config.noFirstKillText + "\n");
                     else
-                        broadcast.Append(Plugin.Config.firstKillText.Replace("%player%", firstKill[0]) + "\n");
+                        broadcast.Append(Plugin.Config.firstKillText.Replace("%player%", firstKill) + "\n");
 
                 if (Plugin.Config.showMostDeaths == true)
                     if(deaths.IsEmpty())
