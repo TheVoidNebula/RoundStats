@@ -32,40 +32,40 @@ namespace RoundStats.Handlers
         {
             //code for the first kill
             if (firstKill == "empty" && ev.Killer != ev.Victim)
-                firstKill = ev.Killer.DisplayName;
+                firstKill = ev.Killer.NickName;
 
             //code for most kills
-            if (!kills.ContainsKey(ev.Killer.DisplayName))
+            if (!kills.ContainsKey(ev.Killer.NickName))
                 if (ev.Killer != ev.Victim)
-                    kills.Add(ev.Killer.DisplayName, 1);
+                    kills.Add(ev.Killer.NickName, 1);
             else
                 if (ev.Killer != ev.Victim)
-                    kills[ev.Killer.DisplayName]++;
+                    kills[ev.Killer.NickName]++;
 
             //code for most deaths
             if (firstDeath == "empty")
-                firstDeath = ev.Victim.DisplayName;
+                firstDeath = ev.Victim.NickName;
 
             //code for most kills
-            if (!deaths.ContainsKey(ev.Killer.DisplayName))
-                    deaths.Add(ev.Victim.DisplayName, 1);
+            if (!deaths.ContainsKey(ev.Killer.NickName))
+                    deaths.Add(ev.Victim.NickName, 1);
                 else
-                    deaths[ev.Victim.DisplayName]++;
+                    deaths[ev.Victim.NickName]++;
 
             //code for Most SCPs recontained
-            if (ev.Victim.RealTeam == Team.SCP && !mostSCPsRecontained.ContainsKey(ev.Killer.DisplayName))
-                mostSCPsRecontained.Add(ev.Killer.DisplayName, 1);
+            if (ev.Victim.RealTeam == Team.SCP && !mostSCPsRecontained.ContainsKey(ev.Killer.NickName))
+                mostSCPsRecontained.Add(ev.Killer.NickName, 1);
             else
-                mostSCPsRecontained[ev.Killer.DisplayName]++;
+                mostSCPsRecontained[ev.Killer.NickName]++;
         }
 
         public void onEscape(Synapse.Api.Events.SynapseEventArguments.PlayerEscapeEventArgs ev)
         {
             if (firstEscape == "empty")
-                firstEscape = ev.Player.DisplayName;
+                firstEscape = ev.Player.NickName;
 
-            if(!escapes.ContainsKey(ev.Player.DisplayName))
-                escapes.Add(ev.Player.DisplayName, Map.Get.Round.RoundLength);
+            if(!escapes.ContainsKey(ev.Player.NickName))
+                escapes.Add(ev.Player.NickName, Map.Get.Round.RoundLength);
         }
 
         public StringBuilder broadcast = new StringBuilder();
