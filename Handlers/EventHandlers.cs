@@ -11,13 +11,13 @@ namespace RoundStats.Handlers
     class EventHandlers
     {
 
-        public static string firstKill = "empty";
-        public static string firstDeath = "empty";
-        public static string firstEscape = "empty";
-        public static Dictionary<string, int> kills = new Dictionary<string, int>();
-        public static  Dictionary<string, int> deaths = new Dictionary<string, int>();
-        public static Dictionary<string, int> mostSCPsRecontained = new Dictionary<string, int>();
-        public static Dictionary<string, TimeSpan> escapes = new Dictionary<string, TimeSpan>();
+        public static string FirstKill = "empty";
+        public static string FirstDeath = "empty";
+        public static string FirstEscape = "empty";
+        public static Dictionary<string, int> Kills = new Dictionary<string, int>();
+        public static  Dictionary<string, int> Deaths = new Dictionary<string, int>();
+        public static Dictionary<string, int> MostSCPsRecontained = new Dictionary<string, int>();
+        public static Dictionary<string, TimeSpan> Escapes = new Dictionary<string, TimeSpan>();
 
 
         public EventHandlers()
@@ -31,103 +31,103 @@ namespace RoundStats.Handlers
         public void onKill(Synapse.Api.Events.SynapseEventArguments.PlayerDeathEventArgs ev)
         {
             //code for the first kill
-            if (firstKill == "empty" && ev.Killer != ev.Victim)
-                firstKill = ev.Killer.NickName;
+            if (FirstKill == "empty" && ev.Killer != ev.Victim)
+                FirstKill = ev.Killer.NickName;
 
-            //code for most kills
-            if (!kills.ContainsKey(ev.Killer.NickName))
+            //code for most Kills
+            if (!Kills.ContainsKey(ev.Killer.NickName))
                 if (ev.Killer != ev.Victim)
-                    kills.Add(ev.Killer.NickName, 1);
+                    Kills.Add(ev.Killer.NickName, 1);
             else
                 if (ev.Killer != ev.Victim)
-                    kills[ev.Killer.NickName]++;
+                    Kills[ev.Killer.NickName]++;
 
-            //code for most deaths
-            if (firstDeath == "empty")
-                firstDeath = ev.Victim.NickName;
+            //code for most Deaths
+            if (FirstDeath == "empty")
+                FirstDeath = ev.Victim.NickName;
 
-            //code for most kills
-            if (!deaths.ContainsKey(ev.Killer.NickName))
-                    deaths.Add(ev.Victim.NickName, 1);
+            //code for most Kills
+            if (!Deaths.ContainsKey(ev.Killer.NickName))
+                    Deaths.Add(ev.Victim.NickName, 1);
                 else
-                    deaths[ev.Victim.NickName]++;
+                    Deaths[ev.Victim.NickName]++;
 
             //code for Most SCPs recontained
-            if (ev.Victim.RealTeam == Team.SCP && !mostSCPsRecontained.ContainsKey(ev.Killer.NickName))
-                mostSCPsRecontained.Add(ev.Killer.NickName, 1);
+            if (ev.Victim.RealTeam == Team.SCP && !MostSCPsRecontained.ContainsKey(ev.Killer.NickName))
+                MostSCPsRecontained.Add(ev.Killer.NickName, 1);
             else
-                mostSCPsRecontained[ev.Killer.NickName]++;
+                MostSCPsRecontained[ev.Killer.NickName]++;
         }
 
         public void onEscape(Synapse.Api.Events.SynapseEventArguments.PlayerEscapeEventArgs ev)
         {
-            if (firstEscape == "empty")
-                firstEscape = ev.Player.NickName;
+            if (FirstEscape == "empty")
+                FirstEscape = ev.Player.NickName;
 
-            if(!escapes.ContainsKey(ev.Player.NickName))
-                escapes.Add(ev.Player.NickName, Map.Get.Round.RoundLength);
+            if(!Escapes.ContainsKey(ev.Player.NickName))
+                Escapes.Add(ev.Player.NickName, Map.Get.Round.RoundLength);
         }
 
         public StringBuilder broadcast = new StringBuilder();
         public void onRoundEnd()
         {
-            if (Plugin.Config.isEnabled)
+            if (Plugin.Config.IsEnabled)
             {
-                if (Plugin.Config.showEscapeCount == true)
-                    if(escapes.Count == 0)
-                        broadcast.Append(Plugin.Config.noEscapeCountText + "\n");
+                if (Plugin.Config.ShowEscapeCount)
+                    if(Escapes.Count == 0)
+                        broadcast.Append(Plugin.Config.NoEscapeCountText + "\n");
                     else
-                    broadcast.Append(Plugin.Config.escapeCountText.Replace("%escaped%", escapes.Keys.Count().ToString()) + "\n");
+                    broadcast.Append(Plugin.Config.EscapeCountText.Replace("%escaped%", Escapes.Keys.Count().ToString()) + "\n");
 
-                if (Plugin.Config.showFastestEscape == true)
-                    if(firstEscape == "empty")
-                        broadcast.Append(Plugin.Config.noFastestEscapeText + "\n");
+                if (Plugin.Config.ShowFastestEscape)
+                    if(FirstEscape == "empty")
+                        broadcast.Append(Plugin.Config.NoFastestEscapeText + "\n");
                     else
                     {
-                        int min = escapes[firstEscape].Minutes;
-                        int sek = escapes[firstEscape].Seconds;
-                        broadcast.Append(Plugin.Config.fastesEscapeText.Replace("%player%", firstEscape).Replace("%time%", min.ToString() + ":" + sek.ToString() + (min == 1 ? "Minute" : "Minuten")) + "\n");
+                        int min = Escapes[FirstEscape].Minutes;
+                        int sek = Escapes[FirstEscape].Seconds;
+                        broadcast.Append(Plugin.Config.FastesEscapeText.Replace("%player%", FirstEscape).Replace("%time%", min.ToString() + ":" + sek.ToString() + (min == 1 ? "Minute" : "Minuten")) + "\n");
                     }
                         
 
-                if (Plugin.Config.showFirstDeath == true)
-                    if (firstDeath == "empty")
-                        broadcast.Append(Plugin.Config.noFirstDeathText + "\n");
+                if (Plugin.Config.ShowFirstDeath)
+                    if (FirstDeath == "empty")
+                        broadcast.Append(Plugin.Config.NoFirstDeathText + "\n");
                     else
-                        broadcast.Append(Plugin.Config.firstDeathText.Replace("%player%", firstDeath) + "\n");
+                        broadcast.Append(Plugin.Config.FirstDeathText.Replace("%player%", FirstDeath) + "\n");
 
-                if (Plugin.Config.showFirstKill == true)
-                    if (firstKill == "empty")
-                        broadcast.Append(Plugin.Config.noFirstKillText + "\n");
+                if (Plugin.Config.ShowFirstKill)
+                    if (FirstKill == "empty")
+                        broadcast.Append(Plugin.Config.NoFirstKillText + "\n");
                     else
-                        broadcast.Append(Plugin.Config.firstKillText.Replace("%player%", firstKill) + "\n");
+                        broadcast.Append(Plugin.Config.FirstKillText.Replace("%player%", FirstKill) + "\n");
 
-                if (Plugin.Config.showMostDeaths == true)
-                    if(deaths.Count == 0)
-                        broadcast.Append(Plugin.Config.noMostDeathText + "\n");
+                if (Plugin.Config.ShowMostDeaths)
+                    if(Deaths.Count == 0)
+                        broadcast.Append(Plugin.Config.NoMostDeathText + "\n");
                     else
-                        broadcast.Append(Plugin.Config.mostDeathsText.Replace("%player%", deaths.Aggregate((l, r) => l.Value > r.Value ? l : r).Key).Replace("%deaths%", deaths.Aggregate((l, r) => l.Value > r.Value ? l : r).Value.ToString()) + "\n");
+                        broadcast.Append(Plugin.Config.MostDeathsText.Replace("%player%", Deaths.Aggregate((l, r) => l.Value > r.Value ? l : r).Key).Replace("%Deaths%", Deaths.Aggregate((l, r) => l.Value > r.Value ? l : r).Value.ToString()) + "\n");
 
-                if (Plugin.Config.showMostKills == true)
-                    if (kills.Count == 0)
-                        broadcast.Append(Plugin.Config.noMostKillsText + "\n");
+                if (Plugin.Config.ShowMostKills)
+                    if (Kills.Count == 0)
+                        broadcast.Append(Plugin.Config.NoMostKillsText + "\n");
                     else
-                        broadcast.Append(Plugin.Config.mostKillsText.Replace("%player%", kills.Aggregate((l, r) => l.Value > r.Value ? l : r).Key).Replace("%kills%", kills.Aggregate((l, r) => l.Value > r.Value ? l : r).Value.ToString()) + "\n");
+                        broadcast.Append(Plugin.Config.MostKillsText.Replace("%player%", Kills.Aggregate((l, r) => l.Value > r.Value ? l : r).Key).Replace("%Kills%", Kills.Aggregate((l, r) => l.Value > r.Value ? l : r).Value.ToString()) + "\n");
 
-                if (Plugin.Config.showMostSCPsRecontained == true)
-                    if (mostSCPsRecontained.Count == 0)
-                        broadcast.Append(Plugin.Config.noMostSCPsRecontainedText + "\n");
+                if (Plugin.Config.ShowMostSCPsRecontained)
+                    if (MostSCPsRecontained.Count == 0)
+                        broadcast.Append(Plugin.Config.NoMostSCPsRecontainedText + "\n");
                     else
-                        broadcast.Append(Plugin.Config.mostSCPsRecontainedText.Replace("%player%", mostSCPsRecontained.Aggregate((l, r) => l.Value > r.Value ? l : r).Key).Replace("%scps%", mostSCPsRecontained.Aggregate((l, r) => l.Value > r.Value ? l : r).Value.ToString()) + "\n");
+                        broadcast.Append(Plugin.Config.MostSCPsRecontainedText.Replace("%player%", MostSCPsRecontained.Aggregate((l, r) => l.Value > r.Value ? l : r).Key).Replace("%scps%", MostSCPsRecontained.Aggregate((l, r) => l.Value > r.Value ? l : r).Value.ToString()) + "\n");
 
                 Map.Get.SendBroadcast(10, broadcast.ToString());
-                firstEscape = "empty";
-                firstKill = "empty";
-                firstDeath = "empty";
-                deaths.Clear();
-                kills.Clear();
-                escapes.Clear();
-                mostSCPsRecontained.Clear();
+                FirstEscape = "empty";
+                FirstKill = "empty";
+                FirstDeath = "empty";
+                Deaths.Clear();
+                Kills.Clear();
+                Escapes.Clear();
+                MostSCPsRecontained.Clear();
             }
         }
 
